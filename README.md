@@ -1,4 +1,9 @@
 ## Katpy
+
+[![Code Health](https://landscape.io/github/s4chin/Katpy/master/landscape.svg?style=flat)](https://landscape.io/github/s4chin/Katpy/master)
+[![Latest Version](https://pypip.in/version/katpy/badge.svg)](https://pypi.python.org/pypi/katpy/)
+[![Downloads](https://pypip.in/download/katpy/badge.svg)](https://pypi.python.org/pypi/katpy/)
+
 An unofficial Python API for [KickAssTorrents](http://kickass.to/)
 
 ### Installation
