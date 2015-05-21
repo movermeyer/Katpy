@@ -259,8 +259,12 @@ class Search(object):
 		category = None
 		if not result is None: # if result: 0 returns false.
 			# Searching home page, get category from result number
-			category = hrefs[result / 10].strip("/")
-			return category
+			if result < 70:
+                category = hrefs[result/10].strip("/")
+                return category
+            else:
+                category = "music"
+                return category
 
 		for item in hrefs:
 			if tag.select("a[href=" + item + "]"):

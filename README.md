@@ -115,4 +115,5 @@ kat.set_base_url("http://kickmirror.com")
 * Implement sorting for kat.popular() 
 * Trying to get a page after the end of the results returns the first page, I want to make it return nothing.
 * Create a filter class to group sort & search options.
+* Implement sub-categories.
 * ~~Add support for searching mirror sites e.g kickmirror.com~~
