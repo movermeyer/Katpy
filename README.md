@@ -1,12 +1,12 @@
-# KAT
+## Katpy
 An unofficial Python API for [KickAssTorrents](http://kickass.to/)
 
 ### Installation
 ```
-pip install kat
+pip install katpy
 ```
 Or:
-(https://pypi.python.org/pypi/kat/0.1.9)
+(https://pypi.python.org/pypi/katpy/1.0.0)
 Download and un-pack.
 ```
 python setup.py install
