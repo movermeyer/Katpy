@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Katpy by s4chin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Katpy</h1>
+      <h2 class="project-tagline">An unofficial Python API for http://kickass.to/</h2>
+      <a href="https://github.com/s4chin/Katpy" class="btn">View on GitHub</a>
+      <a href="https://github.com/s4chin/Katpy/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/s4chin/Katpy/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h2>
+<a id="katpy" class="anchor" href="#katpy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Katpy</h2>
+
+<p><a href="https://landscape.io/github/s4chin/Katpy/master"><img src="https://landscape.io/github/s4chin/Katpy/master/landscape.svg?style=flat" alt="Code Health"></a>
+<a href="https://pypi.python.org/pypi/katpy/"><img src="https://pypip.in/version/katpy/badge.svg" alt="Latest Version"></a>
+<a href="https://pypi.python.org/pypi/katpy/"><img src="https://pypip.in/download/katpy/badge.svg" alt="Downloads"></a></p>
+
+<p>An unofficial Python API for <a href="http://kickass.to/">KickAssTorrents</a></p>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<pre><code>pip install katpy
+</code></pre>
+
+<p>Or:
+(<a href="https://pypi.python.org/pypi/katpy/1.0.0">https://pypi.python.org/pypi/katpy/1.0.0</a>)
+Download and un-pack.</p>
+
+<pre><code>python setup.py install
+</code></pre>
+
+<h3>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h3>
+
+<p>Perform searches using kat.popular(), kat.search() and kat.recent()
+Results returned are iterable and can be accessed individually to
+see individual torrent information.</p>
+
+<div class="highlight highlight-python"><pre><span class="pl-k">import</span> kat
+
+<span class="pl-c"># Get home page results. ------------------------------------------------</span>
+
+home <span class="pl-k">=</span> kat.popular()
+
+<span class="pl-c"># See information about first result </span>
+<span class="pl-k">print</span> home[<span class="pl-c1">0</span>].title <span class="pl-c"># Some torrent title</span>
+
+<span class="pl-c"># Or print out details of every torrent returned</span>
+
+<span class="pl-k">for</span> torrent <span class="pl-k">in</span> home:
+  torrent.print_details()
+
+<span class="pl-c"># By default kat.popular returns 70 results, 10 for each category.</span>
+<span class="pl-c"># We can refine our results by using categories.</span>
+
+home_games <span class="pl-k">=</span> kat.popular(<span class="pl-smi">category</span><span class="pl-k">=</span>kat.Categories.GAMES)
+
+<span class="pl-c"># We can see how many results we got</span>
+<span class="pl-k">print</span> <span class="pl-c1">len</span>(home) <span class="pl-c"># 70</span>
+<span class="pl-k">print</span> <span class="pl-c1">len</span>(home_games) <span class="pl-c"># 10</span>
+
+
+<span class="pl-c"># ----------------------------------------------------------------------</span>
+
+
+<span class="pl-c"># Perform a search -----------------------------------------------------</span>
+
+s <span class="pl-k">=</span> kat.search(<span class="pl-s"><span class="pl-pds">"</span>the walking dead<span class="pl-pds">"</span></span>)
+
+<span class="pl-c"># Searches can be categorized and also sorted.</span>
+s <span class="pl-k">=</span> kat.search(<span class="pl-s"><span class="pl-pds">"</span>the walking dead<span class="pl-pds">"</span></span>, <span class="pl-smi">category</span><span class="pl-k">=</span>kat.Categories.TV, 
+                <span class="pl-smi">sort</span><span class="pl-k">=</span>kat.Sorting.SEED, <span class="pl-smi">order</span><span class="pl-k">=</span>kat.Sorting.Order.DESC)
+
+<span class="pl-c"># They can also span multiple pages</span>
+multi <span class="pl-k">=</span> kat.search(<span class="pl-s"><span class="pl-pds">"</span>the walking dead<span class="pl-pds">"</span></span>, <span class="pl-smi">pages</span><span class="pl-k">=</span><span class="pl-c1">3</span>)
+<span class="pl-c"># And we can keep track of the current page</span>
+<span class="pl-k">print</span> multi.current_page <span class="pl-c"># 3</span>
+
+<span class="pl-c"># We can go to a particular page</span>
+multi.page(<span class="pl-c1">7</span>)
+
+<span class="pl-c"># And to the next page</span>
+multi.next_page()
+
+
+<span class="pl-c">#-----------------------------------------------------------------------</span>
+
+<span class="pl-c"># Get recently added torrents ------------------------------------------</span>
+
+r <span class="pl-k">=</span> kat.recent()
+
+<span class="pl-c"># Recent results can be categorized and sorted like normal searches</span>
+<span class="pl-c"># and can also contain multiple pages.</span>
+
+<span class="pl-c"># Change base url</span>
+kat.set_base_url(<span class="pl-s"><span class="pl-pds">"</span>http://kickmirror.com<span class="pl-pds">"</span></span>)
+</pre></div>
+
+<h3>
+<a id="sorting-and-categories" class="anchor" href="#sorting-and-categories" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sorting and Categories</h3>
+
+<h4>
+<a id="sort-options" class="anchor" href="#sort-options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sort Options</h4>
+
+<ul>
+<li>Sorting.SIZE</li>
+<li>Sorting.AGE</li>
+<li>Sorting.FILES</li>
+<li>Sorging.SEED</li>
+<li>Sorting.LEECH</li>
+<li>Sorting.Order.ASC</li>
+<li>Sorting.Order.DESC</li>
+</ul>
+
+<h4>
+<a id="category-options" class="anchor" href="#category-options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Category Options</h4>
+
+<ul>
+<li>Categories.ALL</li>
+<li>Categories.MOVIES</li>
+<li>Categories.TV</li>
+<li>Categories.ANIME</li>
+<li>Categories.MUSIC</li>
+<li>Categories.BOOKS</li>
+<li>Categories.APPS</li>
+<li>Categories.GAMES</li>
+<li>Categories.XXX</li>
+</ul>
+
+<h3>
+<a id="torrent-information-available" class="anchor" href="#torrent-information-available" aria-hidden="true"><span class="octicon octicon-link"></span></a>Torrent Information Available</h3>
+
+<ul>
+<li>title</li>
+<li>category</li>
+<li>size</li>
+<li>seeders</li>
+<li>leechers</li>
+<li>magnet</li>
+<li>download</li>
+<li>files</li>
+<li>age</li>
+<li>page</li>
+<li>print_details()</li>
+</ul>
+
+<h3>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO</h3>
+
+<ul>
+<li>Implement sorting for kat.popular() </li>
+<li>Trying to get a page after the end of the results returns the first page, I want to make it return nothing.</li>
+<li>Create a filter class to group sort &amp; search options.</li>
+<li>Implement sub-categories.</li>
+<li><del>Add support for searching mirror sites e.g kickmirror.com</del></li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/s4chin/Katpy">Katpy</a> is maintained by <a href="https://github.com/s4chin">s4chin</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-63816462-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
+
